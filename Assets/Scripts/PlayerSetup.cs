@@ -5,6 +5,7 @@ public class PlayerSetup : NetworkBehaviour
 {
     [SerializeField]
     Behaviour[] componentsToDisable;
+    int multiplier;
 
     void Start()
     {
@@ -15,5 +16,21 @@ public class PlayerSetup : NetworkBehaviour
                 componentsToDisable[i].enabled = false;
             }
         }
+
+        if (NetworkServer.connections.Count > 0)
+        {
+            multiplier = 1;
+        }
+        else
+        {
+            multiplier = -1;
+        }
+
     }
+
+    public int getMultiplier()
+    {
+        return multiplier;
+    }
+
 }
