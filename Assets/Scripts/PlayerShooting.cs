@@ -6,6 +6,7 @@ public class PlayerShooting : MonoBehaviour
 {
 
     PlayerMovement playerMovement;
+    public GameObject bullet;
 
     private void Start()
     {
@@ -16,8 +17,7 @@ public class PlayerShooting : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            Debug.Log ("space key was pressed");
-            Debug.Log(playerMovement.getAngle() + "");
+            Instantiate(bullet, playerMovement.getFirePos());
         }
     }
 }

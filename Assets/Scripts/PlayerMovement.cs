@@ -45,20 +45,12 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
                 angle = mouseAngle;
             }
-
         }
-
-        /*else if (angle > 60)
-        {
-            angle = 60;
-        } else if (angle < -60)
-        {
-            angle = -60;
-        }*/
     }
 
-    public float getAngle()
+    public Transform getFirePos()
     {
-        return angle;
+        return transform.GetChild(0);
     }
+    
 }
