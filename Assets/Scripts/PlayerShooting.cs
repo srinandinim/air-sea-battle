@@ -6,6 +6,7 @@ public class PlayerShooting : MonoBehaviour
 {
 
     PlayerMovement playerMovement;
+    Transform shootPosition;
     public GameObject bullet;
 
     private void Start()
@@ -17,7 +18,13 @@ public class PlayerShooting : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            Instantiate(bullet, playerMovement.getFirePos());
+            shootPosition = playerMovement.getFirePos();
+            Instantiate(bullet, shootPosition);
         }
+    }
+
+    public Transform getShootPosition()
+    {
+        return shootPosition;
     }
 }

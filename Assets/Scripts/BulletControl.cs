@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class BulletControl : MonoBehaviour
 {
-    public Vector2 speed;
+    Vector2 speed;
     Rigidbody2D rb;
     int multiplier;
+    Transform shootPosition;
 
     void Start()
     {
         rb = GetComponent <Rigidbody2D> ();
+
         multiplier = GameObject.Find("Player(Clone)").GetComponent<PlayerSetup>().getMultiplier();
-        Debug.Log(multiplier);
         if (multiplier == 1)
-            speed = Vector2.one;
+            speed = new Vector2(2, 2);
         if (multiplier == -1)
-            speed = new Vector2(-1, 1);
+            speed = new Vector2(2, 2);
         rb.velocity = speed;
+
+       // shootPosition = GameObject.Find("Player(Clone)").GetComponent<PlayerShooting>().getShootPosition();
+       // rb.transform.position = new Vector3(shootPosition.position.x, shootPosition.position.y, shootPosition.position.z);
     }
 
     void Update()
