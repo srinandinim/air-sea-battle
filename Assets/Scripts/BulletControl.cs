@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class BulletControl : MonoBehaviour
-{    
+public class BulletControl : NetworkBehaviour
+{
+
+    public ParticleSystem particleSystem;
+
     void Update()
     {
         if (transform.position.x > 12 || transform.position.x < -12 || transform.position.y > 5 || transform.position.y < -5)
@@ -16,9 +18,15 @@ public class BulletControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            Debug.Log("Hit a Plane");
-            Destroy(collision.gameObject);
+            CmdExplosion(collision.gameObject);
         }
-        //Debug.Log(col.gameObject.name + " : " + gameObject.name + " : " + Time.time);
+    }
+
+    [Command]
+    void CmdExplosion(GameObject collider)
+    {
+        ParticleSystem b = Instantiate(particleSystem, transform.position, Quaternion.Euler(0, 0, 0));
+        NetworkServer.Spawn(b.gameObject);
+        Destroy(collider);
     }
 }
