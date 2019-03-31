@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlaneMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        
+       Vector3 temp = new Vector3(.05f, 0, 0);
+       transform.position += temp;
+       if (transform.position.x > 12)
+        {
+            temp = new Vector3(-12f, 4, 0);
+            transform.position = temp;
+        }
     }
 }

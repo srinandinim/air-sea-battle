@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerShooting : MonoBehaviour
+
+public class PlayerShooting : NetworkBehaviour
 {
-
     PlayerMovement playerMovement;
-    Transform shootPosition;
+    Vector3 shootPosition;
     public GameObject bullet;
+    float turretAngle;
+    float turretPower = 10f;
 
     private void Start()
     {
@@ -16,15 +17,31 @@ public class PlayerShooting : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (hasAuthority)
         {
-            shootPosition = playerMovement.getFirePos();
-            Instantiate(bullet, shootPosition);
+            AuthorityUpdate();
         }
     }
 
-    public Transform getShootPosition()
+    void AuthorityUpdate()
     {
-        return shootPosition;
+        if (Input.GetKeyDown("space"))
+        {
+            shootPosition = playerMovement.getPosition();
+            turretAngle = playerMovement.getAngle();
+            Vector2 velocity = new Vector2(turretPower * Mathf.Cos(turretAngle * Mathf.Deg2Rad), turretPower * Mathf.Sin(turretAngle * Mathf.Deg2Rad));
+            CmdFireBullet(shootPosition, velocity);
+        }
     }
-}
+
+    [Command]
+    void CmdFireBullet (Vector3 bulletPosition, Vector2 velocity)
+    {
+        float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+        GameObject b = Instantiate(bullet, bulletPosition, Quaternion.Euler(0, 0, angle));
+        Rigidbody2D rb = b.GetComponent<Rigidbody2D>();
+        rb.velocity = velocity;
+        NetworkServer.Spawn(b);
+    }
+
+    }

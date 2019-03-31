@@ -2,23 +2,22 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 mousePosition, objectPosition;
+    Vector3 mousePosition, objectPosition, mouseTempPosition;
     float mouseAngle, angle;
     int multiplier;
+    public GameObject gameObject, player;
 
     private void Start()
     {
-        multiplier = GetComponent<PlayerSetup>().getMultiplier();
-
-        if (multiplier == 1)
+        if (gameObject.transform.position.x == -7.75)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
+            multiplier = -1;
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
             angle = 45;
-        }
-
-        if (multiplier == -1)
+        } else
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 125));
+            multiplier = 1;
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 125));
             angle = 125;
         }
     }
@@ -32,25 +31,36 @@ public class PlayerMovement : MonoBehaviour
         mouseAngle = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
         if (multiplier == 1)
         {
-            if (mouseAngle > 12 && mouseAngle < 90)
+            if (mouseAngle > 0 && mouseAngle < 150)
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                mouseTempPosition = mousePosition;
                 angle = mouseAngle;
             }
         }
         else if (multiplier == -1)
         {
-            if (mouseAngle > 82 && mouseAngle < 165)
+            if (mouseAngle > 22 && mouseAngle < 172)
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                mouseTempPosition = mousePosition;
                 angle = mouseAngle;
             }
         }
     }
 
-    public Transform getFirePos()
+    public Vector3 getPosition()
     {
-        return transform.GetChild(0);
+        return player.transform.position;
+    }
+
+    public Vector3 getMousePosition()
+    {
+        return mouseTempPosition;
     }
     
+    public float getAngle()
+    {
+        return angle;
+    }
 }
