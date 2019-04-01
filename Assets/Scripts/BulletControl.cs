@@ -28,5 +28,7 @@ public class BulletControl : NetworkBehaviour
         ParticleSystem b = Instantiate(particleSystem, transform.position, Quaternion.Euler(0, 0, 0));
         NetworkServer.Spawn(b.gameObject);
         Destroy(collider);
+        Destroy(gameObject);
     }
+
 }
