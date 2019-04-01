@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class ObstacleController : NetworkBehaviour
@@ -6,36 +7,32 @@ public class ObstacleController : NetworkBehaviour
 
     float speed;
     public GameObject plane;
-    bool[] planeHeights;
+    int[] planeHeights;
 
     void Start()
     {
-        //speed = Random.Range(0.02f, 0.08f);
-        int planeCount = Random.Range(1, 4);
-        planeHeights = new bool[4];
+        int planeCount = UnityEngine.Random.Range(2, 5);
+        Debug.Log(planeCount);
+        planeHeights = new int[planeCount];
         CmdCreatePlanes(planeCount);
     }
-
+    
     [Command]
     void CmdCreatePlanes(int count)
     {
+        int index = 0;
+        speed = UnityEngine.Random.Range(2.5f, 6.0f);
         while (GameObject.FindGameObjectsWithTag("Obstacle").Length < count)
         {
-            int obstacleHeight = Random.Range(1, 4);
-            for (int i = 0; i < planeHeights.Length; i++)
+            int obstacleHeight = UnityEngine.Random.Range(1, 5);
+            int position = Array.IndexOf(planeHeights, obstacleHeight);
+            if (position < 0)
             {
-                if (i+1 == obstacleHeight)
-                {
-                    while (planeHeights[i])
-                    {
-                        obstacleHeight = Random.Range(1, 4); 
-                    }
-                    planeHeights[i] = true;
-                }
-               
+                planeHeights[index] = obstacleHeight;
+                index++;
+                GameObject p = Instantiate(plane, new Vector3(-12f, obstacleHeight, 0), Quaternion.Euler(0, 0, 0));
+                NetworkServer.Spawn(p);
             }
-            GameObject p = Instantiate(plane, new Vector3(-12f, obstacleHeight, 0), Quaternion.Euler(0, 0, 0));
-            NetworkServer.Spawn(p);
         }
     }
 

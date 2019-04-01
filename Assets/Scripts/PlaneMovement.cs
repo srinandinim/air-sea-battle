@@ -5,20 +5,19 @@ public class PlaneMovement : NetworkBehaviour
 {
     Vector3 startingPosition;
     Rigidbody2D rb;
-    float obstacleSpeed = 0.05f;
-    public float transitionSpeed = 10;
+    float obstacleSpeed;
 
     private void Start()
     {
         startingPosition = transform.position;
+        obstacleSpeed = GameObject.Find("ObstacleParent").GetComponent<ObstacleController>().getSpeed();
+        Debug.Log("Speed:" + obstacleSpeed);
         rb = GetComponent<Rigidbody2D>();
-        //obstacleSpeed = Random.Range(0.02f, 0.08f);
     }
 
     void Update()
     {
-        // if (GameObject.FindGameObjectsWithTag("Tank").Length > 1)
-        if (true)
+        if (GameObject.FindGameObjectsWithTag("Tank").Length > 1)
         {
             CmdMovement();
         }
@@ -28,7 +27,7 @@ public class PlaneMovement : NetworkBehaviour
     [Command]
     void CmdMovement()
     {
-        rb.velocity = new Vector2(3.0f, 0.0f);
+        rb.velocity = new Vector2(obstacleSpeed, 0.0f);
         if (rb.transform.position.x > 12)
             rb.transform.position = startingPosition;
         NetworkServer.Spawn(gameObject);
