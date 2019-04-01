@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ObstacleController : NetworkBehaviour
 {
@@ -11,8 +12,9 @@ public class ObstacleController : NetworkBehaviour
 
     void Start()
     {
+        GameObject.Find("Player1Score").GetComponent<Text>().text = "0";
+        GameObject.Find("Player2Score").GetComponent<Text>().text = "0";
         int planeCount = UnityEngine.Random.Range(2, 5);
-        Debug.Log(planeCount);
         planeHeights = new int[planeCount];
         CmdCreatePlanes(planeCount);
     }

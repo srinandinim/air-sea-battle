@@ -9,17 +9,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        if (gameObject.transform.position.x == -7.75)
+        if (gameObject.transform.position.x == -7.75) //LEFT SIDE
         {
             multiplier = -1;
             gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
             angle = 45;
-        } else
+        } else //RIGHT SIDE
         {
             multiplier = 1;
             gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 125));
             angle = 125;
         }
+    }
+
+    public int getMultiplier()
+    {
+        return multiplier;
     }
 
     void Update()

@@ -135,6 +135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 1806709268100411439, guid: 7e287934703cd8b408a81241ab56a6d7,
     type: 3}
+  player1Score: {fileID: 1579702749114517989, guid: 9acae251fde2dd74e9ddb5bfad05b5aa,
+    type: 3}
+  player2Score: {fileID: 8503984773301507622, guid: e6ca47c80eff2fb4cb833e3d9661989f,
+    type: 3}
 --- !u!114 &1751336396560720762
 MonoBehaviour:
   m_ObjectHideFlags: 0

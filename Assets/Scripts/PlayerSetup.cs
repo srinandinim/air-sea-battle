@@ -3,43 +3,11 @@ using UnityEngine.Networking;
 
 public class PlayerSetup : NetworkBehaviour
 {
-    /*[SerializeField]
-    Behaviour[] componentsToDisable;
-    int multiplier;
-
-    void Start()
-    {
-        if (!isLocalPlayer)
-        {
-            for (int i = 0; i < componentsToDisable.Length; i++)
-            {
-                componentsToDisable[i].enabled = false;
-            }
-        }
-
-        if (NetworkServer.connections.Count > 0)
-        {
-            multiplier = 1;
-        }
-        else
-        {
-            multiplier = -1;
-        }
-
-    }
-
-    public int getMultiplier()
-    {
-        return multiplier;
-    }
-
-    */
     public GameObject tankPrefab;
     int multiplier;
 
     private void Start()
     {
-        
         if (NetworkServer.connections.Count > 0)
             multiplier = 1;
         else
@@ -47,6 +15,7 @@ public class PlayerSetup : NetworkBehaviour
 
         if (isServer)
             SpawnTank();
+        
     }
 
     public int getMultiplier()

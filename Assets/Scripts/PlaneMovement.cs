@@ -11,17 +11,14 @@ public class PlaneMovement : NetworkBehaviour
     {
         startingPosition = transform.position;
         obstacleSpeed = GameObject.Find("ObstacleParent").GetComponent<ObstacleController>().getSpeed();
-        Debug.Log("Speed:" + obstacleSpeed);
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (GameObject.FindGameObjectsWithTag("Tank").Length > 1)
-        {
+        if (GameObject.FindGameObjectsWithTag("Tank").Length > 1){
             CmdMovement();
         }
-        
     }
 
     [Command]
