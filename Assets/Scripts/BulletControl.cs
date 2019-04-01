@@ -34,6 +34,9 @@ public class BulletControl : NetworkBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
+            int score = (Int32.Parse(usingText.GetComponent<Text>().text) + 1);
+            usingText.text = score.ToString();
+            RpcScoreChange(score);
             CmdExplosion(collision.gameObject);
         }
     }
@@ -41,12 +44,24 @@ public class BulletControl : NetworkBehaviour
     [Command]
     void CmdExplosion(GameObject collider)
     {
-        int score = Int32.Parse(usingText.GetComponent<Text>().text);
-        score++;
-        usingText.text = score + "";
         ParticleSystem b = Instantiate(particleSystem, transform.position, Quaternion.Euler(0, 0, 0));
         NetworkServer.Spawn(b.gameObject);
         Destroy(collider);
+    }
+
+    [Command]
+    void CmdScoreChange(int s)
+    {
+        RpcScoreChange(s);
+    }
+
+    [ClientRpc]
+    void RpcScoreChange(int s)
+    {
+        if (!isLocalPlayer)
+        {
+            usingText.text = s.ToString();
+        }
     }
 
 }
