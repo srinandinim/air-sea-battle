@@ -4,34 +4,24 @@ using UnityEngine.Networking;
 public class PlayerSetup : NetworkBehaviour
 {
     public GameObject tankPrefab;
-    int multiplier;
 
     private void Start()
     {
-        if (NetworkServer.connections.Count > 0)
-            multiplier = 1;
-        else
-            multiplier = -1;
-
         if (isServer)
             SpawnTank();
-        
-    }
-
-    public int getMultiplier()
-    {
-        return multiplier;
     }
 
     public void SpawnTank()
     {
         if (isServer == false)
             return;
-
-        float rot = transform.rotation.y;
-
-        GameObject myTank = Instantiate(tankPrefab, transform.position, Quaternion.Euler(0, rot, 0));
         
+        GameObject myTank = Instantiate(tankPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+        if (myTank.transform.position.x > 0)
+        {
+            myTank.transform.RotateAround(transform.position, transform.up, 180f);
+        }
+
         NetworkServer.SpawnWithClientAuthority(myTank, connectionToClient);
     }
 

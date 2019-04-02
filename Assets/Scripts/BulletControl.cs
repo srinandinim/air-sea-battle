@@ -36,7 +36,7 @@ public class BulletControl : NetworkBehaviour
         {
             int score = (Int32.Parse(usingText.GetComponent<Text>().text) + 1);
             usingText.text = score.ToString();
-            RpcScoreChange(score);
+            CmdScoreChange(score);
             CmdExplosion(collision.gameObject);
         }
     }
@@ -47,6 +47,7 @@ public class BulletControl : NetworkBehaviour
         ParticleSystem b = Instantiate(particleSystem, transform.position, Quaternion.Euler(0, 0, 0));
         NetworkServer.Spawn(b.gameObject);
         Destroy(collider);
+        Destroy(gameObject);
     }
 
     [Command]

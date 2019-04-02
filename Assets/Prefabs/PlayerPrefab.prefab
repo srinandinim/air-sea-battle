@@ -79,3 +79,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankPrefab: {fileID: 7440171199292117053, guid: e09ed305373bd914da2b87a8f9f1ae3e,
     type: 3}
+  obstaclePlayer: {fileID: 0}

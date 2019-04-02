@@ -1,22 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
-    Vector3 mousePosition, objectPosition, mouseTempPosition;
-    float mouseAngle, angle;
+    float angle;
     int multiplier;
     public GameObject gameObject, player;
 
     private void Start()
     {
-        if (gameObject.transform.position.x == -7.75) //LEFT SIDE
-        {
-            multiplier = -1;
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
-            angle = 45;
-        } else //RIGHT SIDE
+        if (gameObject.transform.position.x < 0)
         {
             multiplier = 1;
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
+            angle = 45;
+        } else
+        {
+            multiplier = -1;
             gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 125));
             angle = 125;
         }
@@ -29,39 +29,54 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        mousePosition = Input.mousePosition;
-        objectPosition = Camera.main.WorldToScreenPoint(transform.position);
-        mousePosition.x = mousePosition.x - objectPosition.x;
-        mousePosition.y = mousePosition.y - objectPosition.y;
-        mouseAngle = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
-        if (multiplier == 1)
+        if (hasAuthority)
         {
-            if (mouseAngle > 0 && mouseAngle < 150)
+            Vector3 mousePosition = Input.mousePosition;
+            Vector3 objectPosition = Camera.main.WorldToScreenPoint(transform.position);
+            mousePosition.x = mousePosition.x - objectPosition.x;
+            mousePosition.y = mousePosition.y - objectPosition.y;
+            float mouseAngle = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
+            if (multiplier == 1)
             {
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
-                mouseTempPosition = mousePosition;
-                angle = mouseAngle;
+                if (mouseAngle > 0 && mouseAngle < 150)
+                {
+                    gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                    angle = mouseAngle;
+                    CmdAngleChange(angle);
+                }
+            }
+            else if (multiplier == -1)
+            {
+                if (mouseAngle > 22 && mouseAngle < 172)
+                {
+                    gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
+                    angle = mouseAngle;
+                    CmdAngleChange(angle);
+                }
             }
         }
-        else if (multiplier == -1)
+            
+    }
+
+    [Command]
+    void CmdAngleChange(float ang)
+    {
+        RpcAngleChange(ang);
+    }
+
+    [ClientRpc]
+    void RpcAngleChange(float ang)
+    {
+        if (!isLocalPlayer)
         {
-            if (mouseAngle > 22 && mouseAngle < 172)
-            {
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
-                mouseTempPosition = mousePosition;
-                angle = mouseAngle;
-            }
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, ang));
+
         }
     }
 
     public Vector3 getPosition()
     {
         return player.transform.position;
-    }
-
-    public Vector3 getMousePosition()
-    {
-        return mouseTempPosition;
     }
     
     public float getAngle()
