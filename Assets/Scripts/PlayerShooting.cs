@@ -17,9 +17,7 @@ public class PlayerShooting : NetworkBehaviour
     private void Update()
     {
         if (hasAuthority)
-        {
             AuthorityUpdate();
-        }
     }
 
     void AuthorityUpdate()

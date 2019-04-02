@@ -13,14 +13,14 @@ public class ObstacleController : NetworkBehaviour
     public Sprite obstacle1, obstacle2;
     Sprite usingSprite;
     int p1Score, p2Score, levelCount, startingSide;
-    
+
     void Start()
     {
         GameObject.Find("Player1Score").GetComponent<Text>().text = "0";
         GameObject.Find("Player2Score").GetComponent<Text>().text = "0";
         newLevel();
     }
-    
+
     private void Update()
     {
         if (gameEnded == false && planesAppeared && GameObject.FindGameObjectsWithTag("Obstacle").Length < 1)
@@ -48,8 +48,7 @@ public class ObstacleController : NetworkBehaviour
         {
             startingSide = -1;
             rotation = 0f;
-        }
-        else
+        } else
         {
             startingSide = 1;
             rotation = 180f;
@@ -84,7 +83,7 @@ public class ObstacleController : NetworkBehaviour
     void CmdCreatePlanes(int count)
     {
         planesAppeared = true;
-        int index = 0;;
+        int index = 0; ;
         if (startingSide == 1)
             speed = speed * -1f;
         while (GameObject.FindGameObjectsWithTag("Obstacle").Length < count)
@@ -103,18 +102,16 @@ public class ObstacleController : NetworkBehaviour
                 RpcCreatePlanes(obstacleHeight);
             }
         }
-       
+
     }
 
     [ClientRpc]
     void RpcCreatePlanes(int obstacleHeight)
-    {
-        
-    }
+    {}
 
     public float getSpeed()
     {
         return speed;
     }
-    
+
 }

@@ -18,10 +18,7 @@ public class PlayerSetup : NetworkBehaviour
         
         GameObject myTank = Instantiate(tankPrefab, transform.position, Quaternion.Euler(0, 0, 0));
         if (myTank.transform.position.x > 0)
-        {
             myTank.transform.RotateAround(transform.position, transform.up, 180f);
-        }
-
         NetworkServer.SpawnWithClientAuthority(myTank, connectionToClient);
     }
 

@@ -68,10 +68,7 @@ public class PlayerMovement : NetworkBehaviour
     void RpcAngleChange(float ang)
     {
         if (!isLocalPlayer)
-        {
             gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, ang));
-
-        }
     }
 
     public Vector3 getPosition()

@@ -16,9 +16,8 @@ public class PlaneMovement : NetworkBehaviour
 
     void Update()
     {
-        if (GameObject.FindGameObjectsWithTag("Tank").Length > 1) { 
+        if (GameObject.FindGameObjectsWithTag("Tank").Length > 1)
             CmdMovement();
-        }
     }
 
     [Command]

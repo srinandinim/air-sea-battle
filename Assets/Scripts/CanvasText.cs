@@ -11,17 +11,11 @@ public class CanvasText : MonoBehaviour
         scoreOne = PlayerPrefs.GetInt("Player1Score");
         scoreTwo = PlayerPrefs.GetInt("Player2Score");
         if (scoreOne > scoreTwo)
-        {
             winner.text = "PLAYER 1 WON!\n[" + scoreOne + " - " + scoreTwo + "]";
-        } 
         if (scoreOne < scoreTwo)
-        {
             winner.text = "PLAYER 2 WON!\n[" + scoreOne + " - " + scoreTwo + "]";
-        }
         if (scoreOne == scoreTwo)
-        {
             winner.text = "IT IS A TIE!\n[" + scoreOne + "-" + scoreTwo + "]";
-        }
     }
 
     private void Update()
