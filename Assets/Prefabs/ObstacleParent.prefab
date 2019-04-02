@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 2077773969945465916, guid: d52d158be8a53454e891aefccf02d845, type: 3}
+  obstacle1: {fileID: 21300000, guid: bf948deb3baf3154893a0aacaacaec86, type: 3}
+  obstacle2: {fileID: 21300000, guid: 0b9c5ae8ddf260e4e89518bc10a892ef, type: 3}
 --- !u!114 &2570088893786908950
 MonoBehaviour:
   m_ObjectHideFlags: 0
